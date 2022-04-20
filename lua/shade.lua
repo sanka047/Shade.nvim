@@ -393,9 +393,11 @@ shade.on_win_closed = function(event, winid)
 	if overlay == nil then
 		log(event, "no overlay to close")
 	else
-		api.nvim_win_close(overlay.winid, false)
-		log(event, ("[%d] : overlay %d destroyed"):format(winid, overlay.winid))
-		state.active_overlays[winid] = nil
+		if api.nvim_win_is_valid(winid) then
+			api.nvim_win_close(overlay.winid, false)
+			log(event, ("[%d] : overlay %d destroyed"):format(winid, overlay.winid))
+			state.active_overlays[winid] = nil
+		end
 	end
 end
 
