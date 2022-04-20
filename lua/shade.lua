@@ -261,7 +261,9 @@ end
 
 local function remove_all_overlays()
 	for _, overlay in pairs(state.active_overlays) do
-		api.nvim_win_close(overlay.winid, true)
+		if api.nvim_win_is_valid(overlay.winid) then
+			api.nvim_win_close(overlay.winid, true)
+		end
 	end
 	state.active_overlays = {}
 end
@@ -393,7 +395,7 @@ shade.on_win_closed = function(event, winid)
 	if overlay == nil then
 		log(event, "no overlay to close")
 	else
-		if api.nvim_win_is_valid(winid) then
+		if api.nvim_win_is_valid(overlay.winid) then
 			api.nvim_win_close(overlay.winid, false)
 			log(event, ("[%d] : overlay %d destroyed"):format(winid, overlay.winid))
 			state.active_overlays[winid] = nil
