@@ -7,6 +7,7 @@ E.DEFAULT_OPACITY_STEP = 1
 E.DEBUG_OVERLAY_OPACITY = 90
 E.NOTIFICATION_TIMEOUT = 1000 -- ms
 
+-- TODO: break apart this state object that holds both configuration and floating window state
 local state = {}
 state.active = false
 state.active_overlays = {}
@@ -294,6 +295,7 @@ local shade = {}
 shade.init = function(opts)
     state.active_overlays = {}
 
+    -- TODO: most of this could be simplified with vim.tbl_deep_extend
     opts = opts or {}
     state.debug = opts.debug or false
 
