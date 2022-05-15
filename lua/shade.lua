@@ -175,6 +175,7 @@ local function filter_wininfo(wininfo)
         col = wininfo.wincol - 1,
         width = wininfo.width,
         height = wininfo.height,
+        zindex = state.shade_zindex,
     }
 end
 
@@ -305,6 +306,9 @@ shade.init = function(opts)
     state.shade_under_float = opts.shade_under_float or true
 
     state.shade_nsid = api.nvim_create_namespace("shade")
+
+    -- Shade needs to have a low zindex to prevent hiding other floating windows
+    state.shade_zindex = opts.shade_zindex or 1
 
     local shade_action = {
         ["brightness_up"] = "brightness_up()",
